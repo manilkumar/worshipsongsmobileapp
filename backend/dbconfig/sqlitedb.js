@@ -1,5 +1,5 @@
-const sqlite3 = require("sqlite3");
-const { open } = require("sqlite");
+import sqlite3 from "sqlite3";
+import { open } from "sqlite";
 
 // Open and connect to SQLite database
 const connectSQLiteDB = async () => {
@@ -7,6 +7,6 @@ const connectSQLiteDB = async () => {
     filename: "./worshipsongs.db", // or any path you want for your SQLite file
     driver: sqlite3.Database,
   });
-}
+};
 
-module.exports = connectSQLiteDB;
+export default connectSQLiteDB;
