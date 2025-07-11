@@ -1,12 +1,11 @@
-const express = require('express');
-//const bodyParser = require('body-parser');
-//const bcrypt = require('bcrypt');
-const cors = require('cors');
+import express from 'express';
+// import bodyParser from 'body-parser';
+// import bcrypt from 'bcrypt';
+import cors from 'cors';
 
-const songsRouter = require('./songsRouter');
+import songsRouter from './songsRouter.js';
 
-const log4js = require("log4js");
-
+import log4js from 'log4js';
 
 log4js.configure({
     appenders: {
@@ -55,6 +54,5 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/songs", songsRouter);
 
 app.listen(PORT, () => {
-   
     console.log(`Surver running on port ${PORT}`)
-})
+});
