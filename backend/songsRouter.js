@@ -6,7 +6,8 @@ import {
     updateSong,
     addSongToDate,
     getSongByDate,
-    deleteSong
+    deleteSong,
+    deleteSongFromDate
 } from './controllers/songsController.js';
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.post('/newsong', addNewSong);
 router.post('/songtodate', addSongToDate);
 router.put('/updateSong/:id', updateSong);
 router.delete('/deleteSong/:id', deleteSong);
+router.delete('/deleteSongFromDate/:id', deleteSongFromDate);
 router.get('/:title', getSongByTitle);
 
 export default router;

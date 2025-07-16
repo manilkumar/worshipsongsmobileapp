@@ -1,8 +1,5 @@
 /node_modules
-/uploads
 /.env
 /.vs
 /logs
-src/.env
-src/logs/*
-src/*.db
+*.db

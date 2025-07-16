@@ -1,4 +1,4 @@
-import connectSQLiteDB  from "../dbconfig/sqlitedb.js";
+import connectSQLiteDB from "../dbconfig/sqlitedb.js";
 
 let db;
 (async () => {
@@ -23,15 +23,15 @@ let db;
 })();
 
 export async function getSongs(req, res) {
-        console.log('Received request for all songs');
-        try {
-            const result = await db.all(`SELECT * FROM SONGS ORDER BY Title ASC`);
-            console.log(result);
-            res.status(200).json(result);
-        } catch (error) {
-            console.error('Error fetching songs:', error);
-            res.status(500).json({ error: 'Failed to fetch songs' });
-        }
+    console.log('Received request for all songs');
+    try {
+        const result = await db.all(`SELECT * FROM SONGS ORDER BY Title ASC`);
+        console.log(result);
+        res.status(200).json(result);
+    } catch (error) {
+        console.error('Error fetching songs:', error);
+        res.status(500).json({ error: 'Failed to fetch songs' });
+    }
 };
 
 export async function getSongByTitle(req, res) {
@@ -57,7 +57,7 @@ export async function getSongByDate(req, res) {
     console.log(`Received request for songs with date: ${date}`);
     try {
         const result = await db.all(
-            `SELECT SONGS.* FROM SONGS
+            `SELECT SundaySongs.ID AS SongId,SONGS.* FROM SONGS
              INNER JOIN SundaySongs ON SONGS.ID = SundaySongs.SongId
              WHERE SundaySongs.Date = ?`,
             [date]
@@ -140,6 +140,24 @@ export async function deleteSong(req, res) {
     try {
         const result = await db.run(
             `DELETE FROM SONGS WHERE ID = ?`,
+            [id]
+        );
+        if (result.changes === 0) {
+            return res.status(404).json({ error: 'Song not found' });
+        }
+        res.status(200).json({ message: 'Song deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting song:', error);
+        res.status(500).json({ error: 'Failed to delete song' });
+    }
+}
+
+export async function deleteSongFromDate(req, res) {
+    const { id } = req.params;
+    console.log(`Received request to delete song from date with ID: ${id}`);
+    try {
+        const result = await db.run(
+            `DELETE FROM SundaySongs WHERE ID = ?`,
             [id]
         );
         if (result.changes === 0) {
