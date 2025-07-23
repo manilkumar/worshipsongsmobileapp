@@ -1,12 +1,7 @@
 import express from 'express';
-// import bodyParser from 'body-parser';
-// import bcrypt from 'bcrypt';
 import cors from 'cors';
-
 import songsRouter from './songsRouter.js';
-
 import log4js from 'log4js';
-
 log4js.configure({
     appenders: {
       console: { type: "console" }, 
@@ -18,7 +13,6 @@ log4js.configure({
       http: { appenders: ["http"], level: "info" } 
     }
 });
-
 const httpLogger = log4js.getLogger("http");
 
 const app = express();
@@ -31,23 +25,8 @@ app.use((req, res, next) => {
     next();
 });
 
-// Allowed origins
-const allowedOrigins = ['https://www.skaarvi.com', 'https://skaarvi.com'];
+app.use(cors());
 
-app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests from the allowed domains
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true); // No error, allow request
-        } else {
-            callback(new Error('Not allowed by CORS')); // Block other origins
-        }
-    },
-    // origin: ['http://localhost:3000','http://localhost:8081'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

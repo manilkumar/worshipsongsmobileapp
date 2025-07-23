@@ -1,12 +1,17 @@
-import sqlite3 from "sqlite3";
-import { open } from "sqlite";
+import mysql from 'mysql2/promise';
 
-// Open and connect to SQLite database
-const connectSQLiteDB = async () => {
-  return open({
-    filename: "./worshipsongs.db", // or any path you want for your SQLite file
-    driver: sqlite3.Database,
-  });
+const connectMySQLDB = async () => {
+  let connection = null;
+  if (!connection) {
+    connection = await mysql.createConnection({
+      host: 'shortline.proxy.rlwy.net',      // your MySQL host
+      user: 'root',  // your MySQL username
+      password: 'eRBPjbVtlQrycpOGKanTCXVPkjAsryyE', // your MySQL password
+      database: 'WorshipSongs',  // your database name
+      port: 15263, // your MySQL port, default is 3306
+    });
+  }
+  return connection;
 };
 
-export default connectSQLiteDB;
+export default connectMySQLDB;
